@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: interest
+      authentication-database: interest
+      auto-index-creation: true
+      username: interest_back_user
+      password: 1nt3restFTW!?!
