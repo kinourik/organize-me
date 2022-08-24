@@ -1,6 +1,14 @@
 html {
   background-color: #282c34;
 }
+::placeholder {
+  color: #65dc98;
+}
+
+input:focus { 
+  outline: none !important;
+  border-color: #a0ffe3;
+}
 .App {
   color: white;
 }

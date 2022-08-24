@@ -1,0 +1,37 @@
+.SearchInterestName{
+  padding: 1.5%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.InputName{
+  border: 0;
+  background: #282c34;
+  color: #65dc98;
+  border-bottom: #65dc98 1px solid;
+  padding: 7px;
+  font-size: 20px;
+  margin: 10px;
+}
+
+.ButtonFilter{
+  background-color: #282c34;
+  color: #65dc98;
+  border: 2px solid #65dc98;
+  border-radius: 5px;
+  padding: 7px;
+  font-size: 20px;
+  margin: 10px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+.ButtonFilter:hover {
+  background-color: #65dc98;
+  color: #282c34;
+}
+
+.ButtonFilter:active { 
+  border-style: outset;
+}

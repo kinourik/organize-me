@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Interest from "../interest/Interest";
+import { Interest } from "../interest/Interest";
 import "./InterestsList.css";
 
 const InterestsList: React.FC = () => {
@@ -11,7 +11,7 @@ const InterestsList: React.FC = () => {
       state: "Completed",
       score: 8,
       currently: 4,
-      total: 12
+      total: 12,
     },
     {
       number: 2,
@@ -20,7 +20,7 @@ const InterestsList: React.FC = () => {
       state: "Ongoing",
       score: 9,
       currently: 1012,
-      total: 1025
+      total: 1025,
     },
     {
       number: 3,
@@ -29,10 +29,10 @@ const InterestsList: React.FC = () => {
       state: "Ongoing",
       score: 10,
       currently: 222,
-      total: 500
+      total: 500,
     },
     {
-      number: 4,
+      number: 25,
       name: "Ghostrunner",
       type: "Game",
       state: "Nearby",
@@ -46,15 +46,33 @@ const InterestsList: React.FC = () => {
       score: 10,
     },
     {
-      number: 6,
+      number: 100,
       name: "Watch later",
       type: "Playlist",
       state: "Ongoing",
+      total: 10,
     },
   ]);
 
   return (
     <div className="InterestsList">
+      <div className="InterestsHeader">
+        <span
+          className="ItemHeader"
+          style={{ marginLeft: "auto", marginRight: 0 }}
+        >
+          #
+        </span>
+        <span
+          className="ItemHeader"
+          style={{textAlign: "left", minWidth: "100%" }}
+        >
+          Name
+        </span>
+        <span className="ItemHeader">Type</span>
+        <span className="ItemHeader">Score</span>
+        <span className="ItemHeader">Progress</span>
+      </div>
       {interests.map((interest) => {
         return <Interest {...interest} />;
       })}

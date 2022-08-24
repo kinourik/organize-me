@@ -1,0 +1,37 @@
+.FilterBar{
+  max-width: 45%;
+  margin: auto;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
+}
+
+.StateFilter{
+
+  background: #65dc98;
+  border: #a0ffe3 1px solid;
+
+  padding: 1.5%;
+  justify-content: center;
+  align-items: center;
+}
+.TypeFilter{
+
+  background: #65dc98;
+  border: #a0ffe3 1px solid;
+
+  padding: 1.5%;
+  justify-content: center;
+  align-items: center;
+}
+.GenresFilter{
+
+  background: #65dc98;
+  border: #a0ffe3 1px solid;
+
+  padding: 1.5%;
+  justify-content: center;
+  align-items: center;
+}
