@@ -1,0 +1,9 @@
+.InterestsList {
+  max-width: 60%;
+  margin: auto;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 5px;
+  align-items: stretch;
+}

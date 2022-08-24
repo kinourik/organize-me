@@ -1,0 +1,73 @@
+.Interest {
+  max-width: 100%;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 2fr 15fr 2fr 1fr 4fr;
+  font-size: 17px;
+}
+
+.InterestStateNumber {
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.InterestState {
+  max-width: 10%;
+  padding: 5px;
+  display: flex;
+  margin-left: auto;
+  margin-right: 0;
+
+  border-bottom: white 1px solid;
+}
+
+.InterestNumber {
+  color: white;
+  font-size: 15px;
+  padding: 10px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+
+  border-bottom: white 1px solid;
+}
+
+.InterestName {
+  color: white;
+  padding: 10px;
+  justify-content: left;
+  align-items: center;
+
+  border-bottom: white 1px solid;
+}
+
+.InterestType {
+  color: white;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+
+  border-bottom: white 1px solid;
+}
+
+.InterestScore {
+  color: white;
+  font-size: 17px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-bottom: white 1px solid;
+}
+
+.InterestProgress {
+  color: white;
+  font-size: 15px;
+  padding: 10px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+  border-bottom: white 1px solid;
+}
