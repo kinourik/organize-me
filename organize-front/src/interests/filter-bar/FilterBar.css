@@ -2,36 +2,101 @@
   max-width: 45%;
   margin: auto;
   padding-top: 2%;
-  padding-bottom: 2%;
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+  row-gap: 10px;
+  grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr;
 }
 
-.StateFilter{
-
-  background: #65dc98;
-  border: #a0ffe3 1px solid;
-
-  padding: 1.5%;
+.SearchInterestName {
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  display: flex;
 }
-.TypeFilter{
 
-  background: #65dc98;
-  border: #a0ffe3 1px solid;
-
-  padding: 1.5%;
-  justify-content: center;
-  align-items: center;
+.InputName {
+  border: 0;
+  background: #282c34;
+  color: #65dc98;
+  border-bottom: #65dc98 1px solid;
+  padding: 7px;
+  font-size: 20px;
+  margin: 10px;
 }
-.GenresFilter{
 
-  background: #65dc98;
-  border: #a0ffe3 1px solid;
+.ButtonFilter {
+  background-color: #282c34;
+  color: #65dc98;
+  border: 2px solid #65dc98;
+  border-radius: 5px;
+  padding: 7px;
+  font-size: 20px;
+  margin: 10px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  padding-left: 11px;
+  padding-right: 11px;
+}
 
-  padding: 1.5%;
+.ButtonFilter:hover {
+  background-color: #65dc98;
+  color: #282c34;
+}
+
+.ButtonFilter:active {
+  border-style: outset;
+}
+
+
+.FilterSection{
+  min-width: 100%;
+  max-width: 100%;
+  margin: auto;
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  grid-template-columns: 1fr;
+}
+
+.FilterLabelButton{
   justify-content: center;
   align-items: center;
+  display: flex;
+  font-size: 17px;
+  color: #65dc98;
+}
+
+.FilterLabel{
+  pointer-events: none;
+}
+.AddFilterButton{
+  margin-left: 12px;
+  font-size: 27px;
+  cursor: pointer
+}
+
+.FiltersList{
+  padding-top: 10px;
+  justify-content: center;
+  align-items: baseline;
+  display: flex;
+  margin: 1% auto;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.FilterItem{
+  max-width: 20%;
+  padding: 0px 6px;
+  margin: 0px 2.5px 0px 2.5px;
+  cursor: pointer;
+}
+
+.FilterItemCategory{
+  padding: 3px;
+  border-radius: 0px 4px 4px 0px;
+  border-color: #282c34;
+}
+
+.FilterItemName{
+  padding: 3px;
 }

@@ -1,3 +1,4 @@
+
 import FilterBar from "../filter-bar/FilterBar";
 import InterestsList from "../interests-list/InterestsList";
 

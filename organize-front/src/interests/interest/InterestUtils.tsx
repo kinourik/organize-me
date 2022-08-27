@@ -11,14 +11,21 @@ export interface InterestType {
 
 
 export const getStyleFromState: (state: string) => object = (state) => {
-  const color: any = {
+  const bgcolor: any = {
     Ongoing: "#00ff9f",
-    Completed: "#001eff",
+    Completed: "#1261d1",
     Pending: "#c3c3c3",
-    Nearby: "#bd00ff",
+    Nearby: "#7a04eb",
+    All: "#8386f5"
   };
-
-  return { background: color[state] };
+  const color: any = {
+    Ongoing: "#120458",
+    Completed: "white",
+    Pending: "#120458",
+    Nearby: "white",
+    All: "#120458",
+  };
+  return { background: bgcolor[state], color: color[state] };
 };
 
 export const getProgress: (interest: InterestType) => string = (interest) => {
@@ -38,15 +45,25 @@ export const getQtaType: (type: string) => string = (type) => {
   return type in qta ? `${qta[type]}` : "";
 };
 
-export const getStyleFromType: (state: string) => object = (state) => {
-  const color: any = {
+export const getStyleFromType: (type: string) => object = (type) => {
+  const bgcolor: any = {
     Anime: "#e96d5e",
     Manga: "#ff9760",
     Book: "#ffe69d",
     Game: "#6a7e6a",
     Movie: "#ac61b9",
     Playlist: "#05d9e8",
+    All: "#4d9e9b"
+  };
+  const color: any = {
+    Anime: "white",
+    Manga: "#120458",
+    Book: "#120458",
+    Game: "white",
+    Movie: "white",
+    Playlist: "#120458",
+    All: "#120458"
   };
 
-  return { background: color[state] };
+  return { background: bgcolor[type], color: color[type] };
 };
