@@ -5,19 +5,18 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
 data class Interest(@Id var id: String? = null,
-                    val name: String = "",
-                    val type: InterestType = InterestType.ALL,
-                    var state: InterestState = InterestState.ALL,
-                    val genres: List<String> = mutableListOf(),
+                    var name: String = "",
+                    var type: InterestType = InterestType.NONE,
+                    var state: InterestState = InterestState.NONE,
+                    var genres: List<Genre> = listOf(),
                     var score: Int? = null,
                     var currently: Int? = null,
-                    var total: Int? = 0,
-                    var content: String? = null) {
+                    var total: Int = 0,
+                    var content: String? = "") {
     fun valid(): Boolean{
-        return  id != null &&
-                name.isNotEmpty() &&
+        return  name.isNotEmpty() &&
                 type!= InterestType.ALL && type!= InterestType.NONE &&
                 state!= InterestState.ALL && state!= InterestState.NONE &&
-                genres.isNotEmpty()
+                genres.isNotEmpty() && total > 0
     }
 }

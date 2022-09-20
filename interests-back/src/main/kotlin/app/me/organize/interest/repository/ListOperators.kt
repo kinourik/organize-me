@@ -1,5 +1,6 @@
 package app.me.organize.interest.repository
 
+import app.me.organize.interest.model.Genre
 import app.me.organize.interest.model.Interest
 import app.me.organize.interest.model.InterestState
 import app.me.organize.interest.model.InterestType
@@ -10,7 +11,7 @@ class ListOperators {
         fun filtersByParameters(name: String?,
                                 type: InterestType,
                                 state: InterestState,
-                                genres: List<String>?): MutableList<(Interest) -> Boolean> {
+                                genres: List<Genre>?): MutableList<(Interest) -> Boolean> {
             val filtersToApply: MutableList<(Interest) -> Boolean> = mutableListOf()
 
             if(name != null){
@@ -35,8 +36,8 @@ class ListOperators {
 
             if(genres != null){
                 filtersToApply.add { interest ->
-                    genres.toSet()
-                            .intersect(interest.genres.toSet())
+                    genres.map { it.name } .toSet()
+                            .intersect(interest.genres.map { it.name }.toSet())
                             .any()
                 }
             }

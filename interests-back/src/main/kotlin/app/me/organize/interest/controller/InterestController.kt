@@ -1,6 +1,9 @@
 package app.me.organize.interest.controller
 
 import app.me.organize.interest.controller.dtos.IdDto
+import app.me.organize.interest.controller.dtos.InterestDto
+import app.me.organize.interest.controller.dtos.InterestDtoMapper
+import app.me.organize.interest.model.Genre
 import app.me.organize.interest.model.Interest
 import app.me.organize.interest.model.InterestState
 import app.me.organize.interest.model.InterestType
@@ -35,7 +38,7 @@ class InterestController (val interestService: InterestService){
                 name,
                 InterestType.getType((type ?: "ALL").uppercase()),
                 InterestState.getState((state ?: "ALL").uppercase()),
-                genres?.map { it.uppercase() },
+                genres?.map { Genre(it.uppercase())},
                 scoreSort,
                 totalSort)
         } catch (exception : IllegalStateException){
@@ -45,11 +48,18 @@ class InterestController (val interestService: InterestService){
     }
 
     @PostMapping
-    fun createInterest(@RequestBody interest: Interest): ResponseEntity<IdDto>{
+    fun createInterest(@RequestBody interestDto: InterestDto): ResponseEntity<IdDto>{
         return try {
+            if(!interestDto.validateAtCreation()){
+                return ResponseEntity.badRequest().build()
+            }
             ResponseEntity
                 .accepted()
-                .body(IdDto(interestService.createInterest(interest)))
+                .body(IdDto(
+                    interestService.createInterest(
+                        InterestDtoMapper.mapFromDto(interestDto)
+                    )
+                ))
         }catch (illegalStateException: IllegalStateException ){
             ResponseEntity.badRequest().build()
         }
@@ -84,5 +94,4 @@ class InterestController (val interestService: InterestService){
             ResponseEntity.badRequest().build()
         }
     }
-
 }

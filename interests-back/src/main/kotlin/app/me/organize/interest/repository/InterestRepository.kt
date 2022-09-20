@@ -1,5 +1,6 @@
 package app.me.organize.interest.repository
 
+import app.me.organize.interest.model.Genre
 import app.me.organize.interest.model.Interest
 import app.me.organize.interest.model.InterestState
 import app.me.organize.interest.model.InterestType
@@ -12,7 +13,7 @@ import kotlin.Comparator
 class InterestRepository(val interestDao: InterestDao) {
 
 
-    fun findAndFilterInterests(name: String?, type: InterestType, state: InterestState, genres: List<String>?, scoreSort: String, totalSort: String): List<Interest> {
+    fun findAndFilterInterests(name: String?, type: InterestType, state: InterestState, genres: List<Genre>?, scoreSort: String, totalSort: String): List<Interest> {
         val interests: List<Interest> = interestDao.findAll()
 
         val filtersToApply: MutableList<(Interest) -> Boolean> = ListOperators.filtersByParameters(name, type, state, genres)
