@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.lang.IllegalStateException
+import java.util.logging.Logger
 
 
 @RestController
 @RequestMapping("/interests")
 class InterestController (val interestService: InterestService){
-
     @GetMapping
     fun getInterests(
             @RequestParam(required=false) name: String?,
@@ -33,65 +33,48 @@ class InterestController (val interestService: InterestService){
             @RequestParam(required=false) genres: List<String>?,
             @RequestParam(required=false) scoreSort: String?,
             @RequestParam(required=false) totalSort: String?
-    ): ResponseEntity<List<Interest>> {
-        val interests = try { interestService.findAndFilterInterests(
+    ): ResponseEntity<List<InterestDto>> {
+        val interests = interestService.findAndFilterInterests(
                 name,
                 InterestType.getType((type ?: "ALL").uppercase()),
                 InterestState.getState((state ?: "ALL").uppercase()),
                 genres?.map { Genre(it.uppercase())},
                 scoreSort,
-                totalSort)
-        } catch (exception : IllegalStateException){
-            return ResponseEntity.badRequest().build()
-        }
+                totalSort).map { InterestDtoMapper.mapFromInterestToDto(it) }
         return ResponseEntity.accepted().body(interests)
     }
 
     @PostMapping
     fun createInterest(@RequestBody interestDto: InterestDto): ResponseEntity<IdDto>{
-        return try {
-            if(!interestDto.validateAtCreation()){
-                return ResponseEntity.badRequest().build()
-            }
-            ResponseEntity
+        return ResponseEntity
                 .accepted()
                 .body(IdDto(
                     interestService.createInterest(
-                        InterestDtoMapper.mapFromDto(interestDto)
+                        InterestDtoMapper.mapFromDtoToInterest(interestDto)
                     )
                 ))
-        }catch (illegalStateException: IllegalStateException ){
-            ResponseEntity.badRequest().build()
-        }
     }
 
     @GetMapping("/{id}")
-    fun getInterest(@PathVariable id: String): ResponseEntity<Interest>{
-        return try {
-            ResponseEntity.accepted().body(interestService.findInterestById(id))
-        }catch (illegalStateException: IllegalStateException){
-            ResponseEntity.badRequest().build()
-        }
+    fun getInterest(@PathVariable id: String): ResponseEntity<InterestDto>{
+        return ResponseEntity.accepted()
+            .body(InterestDtoMapper.mapFromInterestToDto(
+                interestService.findInterestById(id)
+            ))
     }
 
     @PutMapping("/{id}")
-    fun <T> modifyInterest(@PathVariable id: String, @RequestBody interest: Interest): ResponseEntity<T>{
-        return try {
-            interestService.modifyInterest(interest)
-            ResponseEntity.accepted().build()
-        }catch (illegalStateException: IllegalStateException){
-            ResponseEntity.badRequest().build()
-        }
-
+    fun <T> modifyInterest(@PathVariable id: String, @RequestBody interest: InterestDto): ResponseEntity<T>{
+        if(interest.name != null) throw IllegalStateException("You cannot change the name")
+        if(interest.id != null) throw IllegalStateException("You cannot change the id")
+        if(interest.type != null) throw IllegalStateException("You cannot change the type")
+        interestService.modifyInterest(InterestDtoMapper.mapFromDtoToInterestModified(interest, id))
+        return ResponseEntity.accepted().build()
     }
 
     @DeleteMapping("/{id}")
     fun <T> deleteInterest(@PathVariable id: String): ResponseEntity<T>{
-        return try {
-            interestService.deleteInterest(id)
-            ResponseEntity.ok().build()
-        }catch (illegalStateException: IllegalStateException){
-            ResponseEntity.badRequest().build()
-        }
+        interestService.deleteInterest(id)
+        return ResponseEntity.ok().build()
     }
 }

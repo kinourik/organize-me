@@ -1,9 +1,6 @@
 package app.me.organize.interest.repository
 
-import app.me.organize.interest.model.Genre
-import app.me.organize.interest.model.Interest
-import app.me.organize.interest.model.InterestState
-import app.me.organize.interest.model.InterestType
+import app.me.organize.interest.model.*
 import app.me.organize.interest.repository.daos.InterestDao
 import org.springframework.stereotype.Component
 import java.util.UUID
@@ -37,7 +34,6 @@ class InterestRepository(val interestDao: InterestDao) {
     }
 
     fun modifyInterest(interest: Interest){
-        findInterestById(interest.id?:"not an id")
         interestDao.save(interest)
     }
 

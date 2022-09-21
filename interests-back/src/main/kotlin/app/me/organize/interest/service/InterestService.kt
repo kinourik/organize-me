@@ -1,9 +1,6 @@
 package app.me.organize.interest.service
 
-import app.me.organize.interest.model.Genre
-import app.me.organize.interest.model.Interest
-import app.me.organize.interest.model.InterestState
-import app.me.organize.interest.model.InterestType
+import app.me.organize.interest.model.*
 import app.me.organize.interest.repository.InterestRepository
 import app.me.organize.interest.repository.daos.GenreDao
 import org.springframework.stereotype.Service
@@ -40,7 +37,24 @@ class InterestService (val interestRepository: InterestRepository, val genreDao:
         return interestRepository.createInterest(interest)?: throw IllegalStateException("Interest cannot be created")
     }
 
-    fun modifyInterest(interest: Interest) {
+    fun modifyInterest(interestModified: InterestModified) {
+        if(!interestModified.valid()) throw IllegalStateException("Interest invalid")
+        if(interestModified.genres.any { !genreDao.existsById(it.name) } ) throw IllegalStateException("Interest invalid: genre does not exists")
+        val interest = interestRepository.findInterestById(interestModified.id ?: "not an id").apply {
+            genres = interestModified.genres.ifEmpty { genres }
+            score = interestModified.score ?: score
+            total = interestModified.total ?: total
+            content = interestModified.content ?: content
+        }
+        if(interestModified.state != null) {
+            interest.apply {state = interestModified.state ?: state}
+            if(interestModified.state==InterestState.COMPLETED) interest.apply { currently = total }
+        }
+        if(interestModified.currently != null) {
+            interest.apply {currently = interestModified.currently ?: currently}
+            if(interestModified.currently==interest.total) interest.apply { state = InterestState.COMPLETED }
+        }
+
         interestRepository.modifyInterest(interest)
     }
 
