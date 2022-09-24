@@ -1,10 +1,11 @@
 import { getStyleFromType, getStyleFromState } from "../interest/InterestUtils";
 import "./FilterBar.css";
-interface TagNTNode{ name: string; category: string }
+export interface TagNTNode{ name: string; category: string, handleRemove: (name:string, category:string)=>void}
 
 const TagNameType: React.FC<TagNTNode> = ({
   name,
   category,
+  handleRemove
 }) => {
 
   let styleName:object
@@ -21,7 +22,7 @@ const TagNameType: React.FC<TagNTNode> = ({
   }
 
   return (
-    <div className="FilterItem" id={name}>
+    <div className="FilterItem" onClick={()=>handleRemove(name, category)}>
       <span className="FilterItemName" style={styleName}>{name}</span> 
       <span className="FilterItemCategory" style={styleCategory}>{category}</span>
     </div>

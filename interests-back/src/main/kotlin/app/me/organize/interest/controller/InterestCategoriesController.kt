@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/interests")
+@CrossOrigin(origins = ["http://localhost:3000"])
 class InterestCategoriesController(val genreDao: GenreDao) {
 
     @GetMapping("/states")

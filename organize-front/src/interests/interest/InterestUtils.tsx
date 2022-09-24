@@ -48,18 +48,18 @@ export const getQtaType: (type: string) => string = (type) => {
 export const getStyleFromType: (type: string) => object = (type) => {
   const bgcolor: any = {
     Anime: "#e96d5e",
-    Manga: "#ff9760",
+    Manga: "#6a7e6a",
     Book: "#ffe69d",
-    Game: "#6a7e6a",
+    Game: "#ff9760",
     Movie: "#ac61b9",
     Playlist: "#05d9e8",
     All: "#4d9e9b"
   };
   const color: any = {
     Anime: "white",
-    Manga: "#120458",
+    Manga: "white",
     Book: "#120458",
-    Game: "white",
+    Game: "#120458",
     Movie: "white",
     Playlist: "#120458",
     All: "#120458"

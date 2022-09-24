@@ -1,58 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GetAndSetPetition } from "../../api/Petition";
 import { Interest } from "../interest/Interest";
+import { InterestType } from "../interest/InterestUtils";
+import InfiniteScroll from 'react-infinite-scroller';
 import "./InterestsList.css";
 
 const InterestsList: React.FC = () => {
-  let [interests, setInterests] = useState([
-    {
-      number: 1,
-      name: "Imouto Umaru-chan",
-      type: "Anime",
-      state: "Completed",
-      score: 8,
-      currently: 4,
-      total: 12,
-    },
-    {
-      number: 2,
-      name: "One piece",
-      type: "Manga",
-      state: "Ongoing",
-      score: 9,
-      currently: 1012,
-      total: 1025,
-    },
-    {
-      number: 3,
-      name: "Madre patria [Marcelo Gullo]",
-      type: "Book",
-      state: "Ongoing",
-      score: 10,
-      currently: 222,
-      total: 500,
-    },
-    {
-      number: 25,
-      name: "Ghostrunner",
-      type: "Game",
-      state: "Nearby",
-      score: 6,
-    },
-    {
-      number: 5,
-      name: "Quinto elemento",
-      type: "Movie",
-      state: "Pending",
-      score: 10,
-    },
-    {
-      number: 100,
-      name: "Watch later",
-      type: "Playlist",
-      state: "Ongoing",
-      total: 10,
-    },
-  ]);
+  const perPage = 69;
+  const [lastObjectPosition , setLastObjectPosition ] = useState(0);
+  const [loadedInterests, setLoadedInterests] = useState<InterestType[]>([]);
+  const [interests, setInterests] = useState<InterestType[]>([]);
+
+  useEffect(() => {
+    GetAndSetPetition("/interests", setInterests);
+  }, []);
+
+  const loadProducts = () => {
+
+    setLoadedInterests(currentInterests =>{
+      return [...currentInterests, ...interests.slice(lastObjectPosition, lastObjectPosition+perPage)]
+    })
+    setLastObjectPosition(currentValue => {
+        return currentValue + perPage
+    })
+  }
 
   return (
     <div className="InterestsList">
@@ -65,7 +36,7 @@ const InterestsList: React.FC = () => {
         </span>
         <span
           className="ItemHeader"
-          style={{textAlign: "left", minWidth: "100%" }}
+          style={{ textAlign: "left", minWidth: "100%" }}
         >
           Name
         </span>
@@ -73,9 +44,17 @@ const InterestsList: React.FC = () => {
         <span className="ItemHeader">Score</span>
         <span className="ItemHeader">Progress</span>
       </div>
-      {interests.map((interest) => {
-        return <Interest {...interest} />;
-      })}
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={loadProducts}
+        hasMore={lastObjectPosition < interests.length}
+        loader={<div>Loading ...</div>}
+      >
+        {loadedInterests.map((interest, index) => {
+          return <Interest {...interest} number={index+1} />;
+        })}
+      </InfiniteScroll>
+      
     </div>
   );
 };
