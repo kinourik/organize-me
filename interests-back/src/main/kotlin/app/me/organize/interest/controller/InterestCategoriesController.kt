@@ -19,7 +19,7 @@ class InterestCategoriesController(val genreDao: GenreDao) {
         return ResponseEntity.accepted().body(
                 InterestState.values()
                         .filter { it!= InterestState.NONE && it!= InterestState.ALL }
-                        .map { it.toString() }
+                        .map { it.toString().lowercase().replaceFirstChar{ char -> char.uppercase() } }
         )
     }
 
@@ -27,8 +27,8 @@ class InterestCategoriesController(val genreDao: GenreDao) {
     fun getTypes(): ResponseEntity<List<String>> {
         return ResponseEntity.accepted().body(
                 InterestType.values()
-                        .filter { it!= InterestType.NONE && it!= InterestType.ALL }
-                        .map { it.toString() }
+                    .filter { it!= InterestType.NONE && it!= InterestType.ALL }
+                    .map { it.toString().lowercase().replaceFirstChar{ char -> char.uppercase() } }
         )
     }
 
@@ -36,18 +36,18 @@ class InterestCategoriesController(val genreDao: GenreDao) {
     fun getGenres(): ResponseEntity<List<String>> {
         return ResponseEntity.accepted().body(
                 genreDao.findAll()
-                        .map { it.name }
+                    .map { it.name.lowercase().replaceFirstChar{ char -> char.uppercase() } }
         )
     }
     @PostMapping("/genres")
     fun <T> createGenre(@RequestBody genre: Genre): ResponseEntity<T> {
-        genreDao.save(genre)
+        genreDao.save(Genre(name = genre.name.uppercase()))
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
     @DeleteMapping("/genres")
     fun <T> deleteGenre(@RequestBody genre: Genre): ResponseEntity<T> {
-        genreDao.deleteById(genre.name)
+        genreDao.deleteById(genre.name.uppercase())
         return ResponseEntity.ok().build()
     }
 }

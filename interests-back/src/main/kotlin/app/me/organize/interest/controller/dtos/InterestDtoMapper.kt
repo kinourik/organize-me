@@ -9,9 +9,9 @@ class InterestDtoMapper {
             return InterestDto().apply {
                 id = interest.id
                 name = interest.name
-                type = interest.type.name
-                state = interest.state.name
-                genres = interest.genres.map { it.name }
+                type = interest.type.name.lowercase().replaceFirstChar{ char -> char.uppercase() }
+                state = interest.state.name.lowercase().replaceFirstChar{ char -> char.uppercase() }
+                genres = interest.genres.map { it.name.lowercase().replaceFirstChar{ char -> char.uppercase() } }
                 score = interest.score
                 currently = interest.currently
                 total = interest.total
@@ -24,9 +24,9 @@ class InterestDtoMapper {
             return Interest().apply {
                 id = interestDto.id
                 name = interestDto.name?:""
-                type = InterestType.getType(interestDto.type?:"")
-                state = InterestState.getState(interestDto.state?:"")
-                genres = interestDto.genres?.map { Genre(it) }?: listOf()
+                type = InterestType.getType((interestDto.type?:"").uppercase())
+                state = InterestState.getState((interestDto.state?:"").uppercase())
+                genres = interestDto.genres?.map { Genre(it.uppercase()) }?: listOf()
                 score = interestDto.score
                 currently = interestDto.currently
                 total = interestDto.total?:0
@@ -44,12 +44,12 @@ class InterestDtoMapper {
             }
             if(interestDto.state!=null){
                 interestModified.apply {
-                    state = InterestState.getState(interestDto.state?:"")
+                    state = InterestState.getState((interestDto.state?:"").uppercase())
                 }
             }
             if(interestDto.genres!=null){
                 interestModified.apply {
-                    genres = interestDto.genres?.map{ Genre(it) }?: listOf()
+                    genres = interestDto.genres?.map{ Genre(it.uppercase()) }?: listOf()
                 }
             }
 

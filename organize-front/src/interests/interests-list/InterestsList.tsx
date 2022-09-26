@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
-import { GetAndSetPetition } from "../../api/Petition";
 import { Interest } from "../interest/Interest";
 import { InterestType } from "../interest/InterestUtils";
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from "react-infinite-scroller";
 import "./InterestsList.css";
 
-const InterestsList: React.FC = () => {
+const InterestsList: React.FC<{ interests: InterestType[] }> = ({
+  interests,
+}) => {
   const perPage = 69;
-  const [lastObjectPosition , setLastObjectPosition ] = useState(0);
+  const [lastObjectPosition, setLastObjectPosition] = useState(0);
   const [loadedInterests, setLoadedInterests] = useState<InterestType[]>([]);
-  const [interests, setInterests] = useState<InterestType[]>([]);
-
+  const [interestList, setInterestList] = useState<InterestType[]>([]);
   useEffect(() => {
-    GetAndSetPetition("/interests", setInterests);
-  }, []);
+    setInterestList(interests);
+  }, [interests]);
 
   const loadProducts = () => {
-
-    setLoadedInterests(currentInterests =>{
-      return [...currentInterests, ...interests.slice(lastObjectPosition, lastObjectPosition+perPage)]
-    })
-    setLastObjectPosition(currentValue => {
-        return currentValue + perPage
-    })
-  }
+    setLoadedInterests((currentInterests) => {
+      return currentInterests.concat(
+        interestList.slice(lastObjectPosition, lastObjectPosition + perPage)
+      );
+    });
+    setLastObjectPosition((currentValue) => {
+      return currentValue + perPage;
+    });
+  };
 
   return (
     <div className="InterestsList">
@@ -47,14 +48,15 @@ const InterestsList: React.FC = () => {
       <InfiniteScroll
         pageStart={0}
         loadMore={loadProducts}
-        hasMore={lastObjectPosition < interests.length}
-        loader={<div>Loading ...</div>}
+        hasMore={lastObjectPosition < interestList.length}
+        loader={<div key={0}>Loading ...</div>}
       >
         {loadedInterests.map((interest, index) => {
-          return <Interest {...interest} number={index+1} />;
+          return (
+            <Interest {...interest} key={interest.name} number={index + 1} />
+          );
         })}
       </InfiniteScroll>
-      
     </div>
   );
 };

@@ -21,17 +21,17 @@ class InterestController (val interestService: InterestService){
     @GetMapping
     fun getInterests(
             @RequestParam(required=false) name: String?,
-            @RequestParam(required=false) type: String?,
-            @RequestParam(required=false) state: String?,
+            @RequestParam(required=false) types: List<String>?,
+            @RequestParam(required=false) states: List<String>?,
             @RequestParam(required=false) genres: List<String>?,
             @RequestParam(required=false) scoreSort: String?,
             @RequestParam(required=false) totalSort: String?
     ): ResponseEntity<List<InterestDto>> {
         val interests = interestService.findAndFilterInterests(
                 name,
-                InterestType.getType((type ?: "ALL").uppercase()),
-                InterestState.getState((state ?: "ALL").uppercase()),
-                genres?.map { Genre(it.uppercase())},
+                (types?: listOf()).filter{ it.uppercase() != "ALL"}.map { InterestType.getType(it.uppercase()) },
+                (states?: listOf()).filter{ it.uppercase() != "ALL"}.map { InterestState.getState(it.uppercase()) },
+                (genres?: listOf()).filter{ it.uppercase() != "ALL"}.map { Genre(it.uppercase())},
                 scoreSort,
                 totalSort).map { InterestDtoMapper.mapFromInterestToDto(it) }
         return ResponseEntity.accepted().body(interests)

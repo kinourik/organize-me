@@ -9,9 +9,9 @@ class ListOperators {
 
     companion object{
         fun filtersByParameters(name: String?,
-                                type: InterestType,
-                                state: InterestState,
-                                genres: List<Genre>?): MutableList<(Interest) -> Boolean> {
+                                types: List<InterestType>,
+                                states: List<InterestState>,
+                                genres: List<Genre>): MutableList<(Interest) -> Boolean> {
             val filtersToApply: MutableList<(Interest) -> Boolean> = mutableListOf()
 
             if(name != null){
@@ -22,23 +22,22 @@ class ListOperators {
                 return filtersToApply
             }
 
-            if(type != InterestType.ALL && type != InterestType.NONE){
+            if(types.isNotEmpty()){
                 filtersToApply.add { interest ->
-                    interest.type == type
+                    types.filter { it != InterestType.ALL }.any { interest.type == it}
                 }
             }
 
-            if(state != InterestState.ALL && state != InterestState.NONE){
+            if (states.isNotEmpty()){
                 filtersToApply.add { interest ->
-                    interest.state == state
+                    states.filter { it != InterestState.ALL }.any { it == interest.state }
                 }
             }
-
-            if(genres != null){
+            if(genres.isNotEmpty()){
                 filtersToApply.add { interest ->
                     genres.map { it.name } .toSet()
-                            .intersect(interest.genres.map { it.name }.toSet())
-                            .any()
+                        .intersect(interest.genres.map { it.name }.toSet())
+                        .any()
                 }
             }
             return filtersToApply

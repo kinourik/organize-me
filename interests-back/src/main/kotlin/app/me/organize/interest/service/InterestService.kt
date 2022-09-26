@@ -10,18 +10,18 @@ class InterestService (val interestRepository: InterestRepository, val genreDao:
 
     fun findAndFilterInterests(
         name: String?,
-        type: InterestType,
-        state: InterestState,
-        genres: List<Genre>?,
+        types: List<InterestType>,
+        states: List<InterestState>,
+        genres: List<Genre>,
         scoreSort: String?,
         totalSort: String?
     ): List<Interest>{
-        if (type == InterestType.NONE) throw IllegalStateException("Type not valid")
-        if (state == InterestState.NONE) throw IllegalStateException("State not valid")
+        if (types.any { it == InterestType.NONE } ) throw IllegalStateException("Type not valid")
+        if (states.any { it == InterestState.NONE} ) throw IllegalStateException("State not valid")
         return interestRepository.findAndFilterInterests(
                 name,
-                type,
-                state,
+                types,
+                states,
                 genres,
                 scoreSort?: "NONE",
                 totalSort?: "NONE")

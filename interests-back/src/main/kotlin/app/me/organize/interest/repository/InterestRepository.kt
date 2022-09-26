@@ -10,10 +10,10 @@ import kotlin.Comparator
 class InterestRepository(val interestDao: InterestDao) {
 
 
-    fun findAndFilterInterests(name: String?, type: InterestType, state: InterestState, genres: List<Genre>?, scoreSort: String, totalSort: String): List<Interest> {
+    fun findAndFilterInterests(name: String?, types: List<InterestType>, states: List<InterestState>, genres: List<Genre>, scoreSort: String, totalSort: String): List<Interest> {
         val interests: List<Interest> = interestDao.findAll()
 
-        val filtersToApply: MutableList<(Interest) -> Boolean> = ListOperators.filtersByParameters(name, type, state, genres)
+        val filtersToApply: MutableList<(Interest) -> Boolean> = ListOperators.filtersByParameters(name, types, states, genres)
         val comparatorToApply: Comparator<Interest> = ListOperators.sortsByParameters(scoreSort, totalSort)
 
         return interests.filter{interest -> filtersToApply.all{ it(interest) }}

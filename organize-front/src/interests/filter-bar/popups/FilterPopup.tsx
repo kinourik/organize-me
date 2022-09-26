@@ -1,21 +1,38 @@
 import { useState } from "react";
+import { getAndSetPetition } from "../../../api/Petition";
 import "./FilterPopup.css";
 
 interface FilterPopupProps{
   closePopup: () => void
+  addItem: (name:string, category:string) => void
 }
 
-const FilterPopup: React.FC<FilterPopupProps> = ({closePopup}) => {
+const FilterPopup: React.FC<FilterPopupProps> = ({closePopup, addItem}) => {
 
   let [categoryType, setCategoryType] = useState<string | unknown>("")
-  const handleCategoryTypeChange = (event: React.ChangeEvent<{ value: unknown }>) =>{
-    setCategoryType(event.target.value)
-  }
   let [categoryName, setCategoryName] = useState<string | unknown>("")
+  let [categoryNames, setCategoryNames] = useState<string[]>([])
+
+  const handleCategoryTypeChange = (event: React.ChangeEvent<{ value: unknown }>) =>{
+    let type:string | unknown = event.target.value as string
+    setCategoryType(type)
+    if(type === "State"){
+      getAndSetPetition("/interests/states", setCategoryNames)
+    }else if (type == "Type"){
+      getAndSetPetition("/interests/types", setCategoryNames)
+    }else if (type == "Genre"){
+      getAndSetPetition("/interests/genres", setCategoryNames)
+    }
+  }
+
+  const addFilterButtonHandler = () =>{
+    addItem(categoryName as string, categoryType as string)
+    closePopup()
+  }
+
   const handleCategoryNameChange = (event: React.ChangeEvent<{ value: unknown }>) =>{
     setCategoryName(event.target.value)
   }
-
   return (
     <div className='FilterPopup'>  
       <div className='FilterPopupOpen'>  
@@ -30,12 +47,12 @@ const FilterPopup: React.FC<FilterPopupProps> = ({closePopup}) => {
         <label className="DarkSelect" >
           <select value={categoryName as string} onChange={handleCategoryNameChange}>
             <option value="Select" selected hidden>Select a name</option>
-            <option value="op1">op1</option>
-            <option value="op2">op2</option>
-            <option value="op3">op3</option>
+            {categoryNames.map((category)=>{
+              return <option value={category}>{category}</option>
+            })}
           </select>
         </label>
-        <span className="AddCategoryButton" onClick={() => closePopup()}> <b>+</b></span>
+        <span className="AddCategoryButton" onClick={addFilterButtonHandler}> <b>+</b></span>
         <span className="ClosePopupButton" onClick={() => closePopup()} style={{fontFamily: "sans-serif"}}> <b>x</b></span>
       </div>  
     </div> 
