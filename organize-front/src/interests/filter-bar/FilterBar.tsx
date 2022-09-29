@@ -31,6 +31,10 @@ const FilterBar: React.FC<{
       )
     );
   };
+  const updateListAfterInterestCreation = (name: string)=>{
+    setInterestName(name)
+    handleInterestNameChange(name)
+  }
   const handleAddItem = (name: string, category: string) => {
     const tempFilters = filterList.filter(
       (item) => item.name !== "All" || item.category !== category[0]
@@ -106,7 +110,7 @@ const FilterBar: React.FC<{
         />
       ) : null}
       {showPopup.interest ? (
-        <CreateInterestPopup closePopup={handleShowInterestPopup} />
+        <CreateInterestPopup closePopup={handleShowInterestPopup} updateListAtCreation={updateListAfterInterestCreation}/>
       ) : null}
     </div>
   );

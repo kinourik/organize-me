@@ -1,14 +1,15 @@
-import { SrvRecord } from "dns";
+import { AxiosError, AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { getAndSetPetition } from "../../../api/Petition";
+import { getListAndSetPetition, postPetition } from "../../../api/Petition";
 import "./CreateInterestPopup.css";
 
 interface CreateInterestPopupProps {
   closePopup: () => void;
+  updateListAtCreation: (name: string) => void
 }
 
 const CreateInterestPopup: React.FC<CreateInterestPopupProps> = ({
-  closePopup,
+  closePopup, updateListAtCreation
 }) => {
   const [name, setName] = useState<string>("");
   const [type, setType] = useState<string>("");
@@ -22,38 +23,75 @@ const CreateInterestPopup: React.FC<CreateInterestPopupProps> = ({
   const [types, setTypes] = useState<string[]>([]);
   const [states, setStates] = useState<string[]>([]);
   const [genres, setGenres] = useState<string[]>([]);
-  
 
-  const handleChangeName = (event: React.ChangeEvent<{ value: unknown | string }>) =>{
-    setName(event.target.value as string)
-  }
-  const handleChangeType = (event: React.ChangeEvent<{ value: unknown | string }>) =>{
-    setType(event.target.value as string)
-  }
-  const handleChangeState = (event: React.ChangeEvent<{ value: unknown | string }>) =>{
-    setState(event.target.value as string)
-  }
-  const handleChangeGenre = (event: React.ChangeEvent<{ value: unknown | string }>) =>{
-    setGenre(event.target.value as string)
-  }
-  const handleChangeScore = (event: React.ChangeEvent<{ value: unknown | number }>) =>{
-    setScore(event.target.value as number)
-  }
-  const handleChangeCurrently = (event: React.ChangeEvent<{ value: unknown | number }>) =>{
-    setCurrently(event.target.value as number)
-  }
-  const handleChangeTotal = (event: React.ChangeEvent<{ value: unknown | number }>) =>{
-    setTotal(event.target.value as number)
-  }
-  const handleChangeContent = (event: React.ChangeEvent<{ value: unknown | string }>) =>{
-    setContent(event.target.value as string)
-  }
+  const handleChangeName = (
+    event: React.ChangeEvent<{ value: unknown | string }>
+  ) => {
+    setName(event.target.value as string);
+  };
+  const handleChangeType = (
+    event: React.ChangeEvent<{ value: unknown | string }>
+  ) => {
+    setType(event.target.value as string);
+  };
+  const handleChangeState = (
+    event: React.ChangeEvent<{ value: unknown | string }>
+  ) => {
+    setState(event.target.value as string);
+  };
+  const handleChangeGenre = (
+    event: React.ChangeEvent<{ value: unknown | string }>
+  ) => {
+    setGenre(event.target.value as string);
+  };
+  const handleChangeScore = (
+    event: React.ChangeEvent<{ value: unknown | number }>
+  ) => {
+    setScore(event.target.value as number);
+  };
+  const handleChangeCurrently = (
+    event: React.ChangeEvent<{ value: unknown | number }>
+  ) => {
+    setCurrently(event.target.value as number);
+  };
+  const handleChangeTotal = (
+    event: React.ChangeEvent<{ value: unknown | number }>
+  ) => {
+    setTotal(event.target.value as number);
+  };
+  const handleChangeContent = (
+    event: React.ChangeEvent<{ value: unknown | string }>
+  ) => {
+    setContent(event.target.value as string);
+  };
 
-  useEffect(()=>{
-    getAndSetPetition("/interests/states", setStates)
-    getAndSetPetition("/interests/types", setTypes)
-    getAndSetPetition("/interests/genres", setGenres)
-  },[])
+  const handleCreateInterest = () => {
+    let interest = {
+      name: name,
+      type: type,
+      state: state,
+      genres: [genre],
+      score: score,
+      currently: currently,
+      total: total,
+      content: content,
+    };
+    let response: Promise<AxiosResponse> = postPetition("/interests", interest);
+    response
+      .then((response: AxiosResponse) => {
+        updateListAtCreation(name)
+        closePopup()
+      })
+      .catch((error: AxiosError) => {
+        console.error(error.cause);
+      });
+  };
+
+  useEffect(() => {
+    getListAndSetPetition("/interests/states", setStates);
+    getListAndSetPetition("/interests/types", setTypes);
+    getListAndSetPetition("/interests/genres", setGenres);
+  }, []);
 
   return (
     <div className="CreateInterestPopup">
@@ -81,38 +119,32 @@ const CreateInterestPopup: React.FC<CreateInterestPopupProps> = ({
         </div>
         <div className="CInterestStateTypeGenres">
           <label className="DarkSelect" title="State">
-            <select 
-            value={state}
-            onChange={handleChangeState}>
+            <select value={state} onChange={handleChangeState}>
               <option value="Select" selected hidden>
                 Select the state
               </option>
-              {states.map((item)=>{
-              return <option value={item}>{item}</option>
-            })}
+              {states.map((item) => {
+                return <option value={item}>{item}</option>;
+              })}
             </select>
           </label>
           <label className="DarkSelect" title="Type">
-            <select 
-              value={type}
-              onChange={handleChangeType}>
+            <select value={type} onChange={handleChangeType}>
               <option value="Select" selected hidden>
                 Select the type
               </option>
-              {types.map((item)=>{
-              return <option value={item}>{item}</option>
-            })}
+              {types.map((item) => {
+                return <option value={item}>{item}</option>;
+              })}
             </select>
           </label>
           <label className="DarkSelect" title="Genre">
-            <select 
-            value={genre}
-            onChange={handleChangeGenre}>
+            <select value={genre} onChange={handleChangeGenre}>
               <option value="Select" selected hidden>
                 Select the genre
               </option>
-              {genres.map((item)=>{
-              return <option value={item}>{item}</option>
+              {genres.map((item) => {
+                return <option value={item}>{item}</option>;
               })}
             </select>
           </label>
@@ -131,7 +163,6 @@ const CreateInterestPopup: React.FC<CreateInterestPopupProps> = ({
           <input
             type="text"
             className="InputInterestCreate"
-
             value={score as number}
             onChange={handleChangeScore}
             placeholder="Type a score"
@@ -140,7 +171,6 @@ const CreateInterestPopup: React.FC<CreateInterestPopupProps> = ({
           <input
             type="text"
             className="InputInterestCreate"
-
             value={currently as number}
             onChange={handleChangeCurrently}
             placeholder="Type progress"
@@ -149,13 +179,16 @@ const CreateInterestPopup: React.FC<CreateInterestPopupProps> = ({
           <input
             type="text"
             className="InputInterestCreate"
-
             value={total as number}
             onChange={handleChangeTotal}
             placeholder="Type total"
             title="Total"
           />
-          <button className="ButtonFilter" type="button">
+          <button
+            className="ButtonFilter"
+            type="button"
+            onClick={() => handleCreateInterest()}
+          >
             Create
           </button>
         </div>

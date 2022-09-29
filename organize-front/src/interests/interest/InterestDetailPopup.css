@@ -1,0 +1,93 @@
+.InterestDetailPopup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.InterestDetailOpen {
+  position: absolute;
+  left: 34%;
+  right: 34%;
+  top: 17%;
+  bottom: 60%;
+  padding: 0.5%;
+  border-radius: 10px;
+  background: #282c34;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
+}
+.Title{
+
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 10fr 1fr;
+  
+}
+.CInterestDetailName{
+
+  color: #65dc98;
+  padding: 15px;
+  
+}
+
+.CInterestDetailStateGenres{
+
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr ;
+
+}
+.CInterestDetailContent{
+
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 2fr;
+}
+
+.CInterestDetailScoreCurrentlyTotalDelete{
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+}
+
+
+.InputInterestDetail {
+  min-width: 0;
+  border: 0;
+  background: #282c34;
+  color: #65dc98;
+  border-bottom: #65dc98 1px solid;
+  padding: 5px;
+  font-size: 15px;
+  margin: 10px;
+}
+
+.ButtonDelete {
+  background-color: #282c34;
+  color: #ff2a6d;
+  border: 2px solid #ff2a6d;
+  border-radius: 5px;
+  padding: 7px;
+  font-size: 20px;
+  margin: 10px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  padding-left: 11px;
+  padding-right: 11px;
+}
+
+.ButtonDelete:hover {
+  background-color: #ff2a6d;
+  color: #282c34;
+}
+
+.ButtonDelete:active {
+  border-style: outset;
+}

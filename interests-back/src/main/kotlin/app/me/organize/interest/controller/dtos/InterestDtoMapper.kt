@@ -17,7 +17,6 @@ class InterestDtoMapper {
                 total = interest.total
                 content = interest.content
             }
-
         }
         fun mapFromDtoToInterest(interestDto: InterestDto): Interest {
 
@@ -29,7 +28,7 @@ class InterestDtoMapper {
                 genres = interestDto.genres?.map { Genre(it.uppercase()) }?: listOf()
                 score = interestDto.score
                 currently = interestDto.currently
-                total = interestDto.total?:0
+                total = interestDto.total
                 content = interestDto.content
             }
         }

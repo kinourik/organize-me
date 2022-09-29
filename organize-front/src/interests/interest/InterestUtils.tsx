@@ -1,5 +1,6 @@
 
 export interface InterestType {
+  id?: string;
   number: number;
   name: string;
   type: string;
@@ -7,6 +8,7 @@ export interface InterestType {
   score?: number;
   currently?: number;
   total?: number;
+  removeItself: (id: string) =>void
 }
 
 

@@ -25,7 +25,10 @@ const InterestsList: React.FC<{ interests: InterestType[] }> = ({
       return currentValue + perPage;
     });
   };
-
+  const deleteById = (id:string)=>{
+    setInterestList(interestList.filter((interest)=>interest.id!==id))
+    setLoadedInterests(loadedInterests.filter((interest)=>interest.id!==id))
+  }
   return (
     <div className="InterestsList">
       <div className="InterestsHeader">
@@ -53,7 +56,7 @@ const InterestsList: React.FC<{ interests: InterestType[] }> = ({
       >
         {loadedInterests.map((interest, index) => {
           return (
-            <Interest {...interest} key={interest.name} number={index + 1} />
+            <Interest {...interest} key={interest.name} number={index + 1} removeItself={deleteById} />
           );
         })}
       </InfiniteScroll>

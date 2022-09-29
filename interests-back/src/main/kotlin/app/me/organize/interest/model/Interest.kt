@@ -11,12 +11,12 @@ data class Interest(@Id var id: String? = null,
                     var genres: List<Genre> = listOf(),
                     var score: Int? = null,
                     var currently: Int? = null,
-                    var total: Int = 0,
+                    var total: Int? = 0,
                     var content: String? = "") {
     fun valid(): Boolean{
         return name.isNotEmpty() &&
                 type != InterestType.ALL && type != InterestType.NONE &&
                 state != InterestState.ALL && state != InterestState.NONE &&
-                genres.isNotEmpty() && total > 0 && (currently ?: 0) >= 0
+                genres.isNotEmpty() && (total?:1) > 0 && (currently ?: 0) >= 0
     }
 }
